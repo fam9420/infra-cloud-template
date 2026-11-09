@@ -1,5 +1,7 @@
 """Servicio patron: the reference stateful HTTP service used in every class.
 
+CI smoke-test change for the Clase 4 pipeline.
+
 Contract (the class-1 Moodle lab builds a minimal hand-written version of the
 same idea; this is the one used from class 2 on):
   - GET  /          -> plain-text hit counter, persisted on disk
