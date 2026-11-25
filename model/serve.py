@@ -29,6 +29,7 @@ from pydantic import BaseModel
 
 MODEL_PATH = Path(os.environ.get("MODEL_PATH", "model.joblib"))
 PORT = int(os.environ.get("PORT", "8081"))
+MODEL_VERSION = "v1.1"
 
 PREDICTIONS = Counter("model_predictions_total", "Total predictions served")
 PREDICT_LATENCY = Histogram("model_predict_seconds", "Prediction latency in seconds")
@@ -107,7 +108,11 @@ def predict(req: PredictRequest) -> dict[str, object]:
     idx = int(proba.argmax())
     PREDICTIONS.inc()
     PREDICT_LATENCY.observe(time.time() - start)
-    return {"class": bundle["target_names"][idx], "confidence": float(proba[idx])}
+    return {
+        "class": bundle["target_names"][idx],
+        "confidence": float(proba[idx]),
+        "model_version": MODEL_VERSION,
+    }
 
 
 if __name__ == "__main__":
